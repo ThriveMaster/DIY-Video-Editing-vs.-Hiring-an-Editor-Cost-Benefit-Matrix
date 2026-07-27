@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Editing DIY vs. Hire Cost-Benefit Matrix</title>
+    <!-- Tailwind CSS for modern responsive utility design -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font for executive typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Chart.js for responsive visual ROI analysis -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 999px; }
+        ::-webkit-scrollbar-thumb:hover { background: #6b7280; }
+    </style>
+</head>
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen p-4 md:p-6 transition-colors duration-300">
+
+    <div class="max-w-6xl mx-auto bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-2xl overflow-hidden transition-all">
+        
+        <!-- Top Branded Header -->
+        <div class="bg-gradient-to-r from-violet-600 via-indigo-600 to-blue-700 p-6 text-white relative">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <span class="text-3xl">✂️</span>
+                    <div>
+                        <h1 class="text-xl md:text-2xl font-extrabold tracking-tight">DIY Video Editing vs. Hiring Matrix</h1>
+                        <p class="text-indigo-100 text-xs md:text-sm mt-0.5">Quantify the cost of your time and find the exact break-even point for outsourcing.</p>
+                    </div>
+                </div>
+                <button id="theme-toggle" class="self-start sm:self-auto bg-indigo-700/50 hover:bg-indigo-700/80 px-3 py-1.5 rounded-lg text-xs font-semibold border border-indigo-400/30 transition-all flex items-center gap-1.5">
+                    <span id="theme-icon">☀️</span> <span id="theme-text">Light Mode</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-zinc-200 dark:divide-zinc-800">
+            
+            <!-- Left Input Column -->
+            <div class="p-6 lg:col-span-5 flex flex-col gap-5 bg-zinc-50/50 dark:bg-zinc-900/40">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-wider">Production Variables</span>
+                    <button id="btn-reset" class="text-xs text-indigo-600 dark:text-indigo-400 hover:underline font-medium">Reset Data</button>
+                </div>
+
+                <!-- Input: Hourly Value -->
+                <div class="flex flex-col gap-2">
+                    <label for="input-hourly-rate" class="text-xs font-semibold text-zinc-700 dark:text-zinc-300">Your Hourly Revenue Value ($)</label>
+                    <input type="number" id="input-hourly-rate" value="150" min="20" class="bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg py-2 px-3 text-sm font-bold focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                </div>
+
+                <!-- Input: Hours Editing -->
+                <div class="flex flex-col gap-2">
+                    <div class="flex justify-between items-center text-xs font-semibold">
+                        <label for="slider-edit-hours" class="text-zinc-700 dark:text-zinc-300">Hours spent editing per video</label>
+                        <span id="val-edit-hours" class="text-indigo-600 dark:text-indigo-400 font-bold">5 hrs</span>
+                    </div>
+                    <input type="range" id="slider-edit-hours" min="1" max="20" step="0.5" value="5" class="w-full h-1.5 bg-zinc-200 dark:bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-indigo-600">
+                </div>
+
+                <!-- Input: Videos per Month -->
+                <div class="flex flex-col gap-2">
+                    <div class="flex justify-between items-center text-xs font-semibold">
+                        <label for="slider-videos" class="text-zinc-700 dark:text-zinc-300">Videos produced per month</label>
+                        <span id="val-videos" class="text-indigo-600 dark:text-indigo-400 font-bold">4 videos</span>
+                    </div>
+                    <input type="range" id="slider-videos" min="1" max="30" step="1" value="4" class="w-full h-1.5 bg-zinc-200 dark:bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-indigo-600">
+                </div>
+
+                <!-- Input: Editor Cost -->
+                <div class="flex flex-col gap-2">
+                    <label for="input-editor-cost" class="text-xs font-semibold text-zinc-700 dark:text-zinc-300">Professional Editor Cost per Video ($)</label>
+                    <input type="number" id="input-editor-cost" value="200" min="0" class="bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg py-2 px-3 text-sm font-bold focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                </div>
+            </div>
+
+            <!-- Right Output Column -->
+            <div class="p-6 lg:col-span-7 flex flex-col justify-between gap-6 bg-white dark:bg-zinc-900">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800">
+                        <span class="text-[10px] uppercase font-bold text-zinc-400">DIY Opportunity Cost/Mo</span>
+                        <div id="stat-opportunity-cost" class="text-2xl font-extrabold text-rose-600">$3,000</div>
+                    </div>
+                    <div class="p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800">
+                        <span class="text-[10px] uppercase font-bold text-zinc-400">Monthly Outsourcing Cost</span>
+                        <div id="stat-outsourcing-cost" class="text-2xl font-extrabold text-emerald-600">$800</div>
+                    </div>
+                </div>
+
+                <div class="h-44 w-full">
+                    <canvas id="roi-chart"></canvas>
+                </div>
+
+                <div id="takeaway-card" class="p-4 rounded-xl border border-indigo-500/30 bg-indigo-500/5 text-xs text-zinc-800 dark:text-zinc-200"></div>
+
+                <button id="btn-copy" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl py-3 px-4 shadow-md transition-all">Copy ROI Report</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-emerald-600 text-white font-semibold px-4 py-3 rounded-xl shadow-xl transform translate-y-20 opacity-0 transition-all duration-300 flex items-center gap-2">
+        <span id="toast-icon">✅</span>
+        <span id="toast-message">Report Copied!</span>
+    </div>
+
+    <script>
+        const inputRate = document.getElementById("input-hourly-rate");
+        const sliderEditHours = document.getElementById("slider-edit-hours");
+        const sliderVideos = document.getElementById("slider-videos");
+        const inputEditorCost = document.getElementById("input-editor-cost");
+
+        const statOpportunity = document.getElementById("stat-opportunity-cost");
+        const statOutsourcing = document.getElementById("stat-outsourcing-cost");
+        const takeaway = document.getElementById("takeaway-card");
+        const toast = document.getElementById("toast");
+
+        let chart = null;
+
+        const calculate = () => {
+            const rate = parseFloat(inputRate.value);
+            const hours = parseFloat(sliderEditHours.value);
+            const videos = parseFloat(sliderVideos.value);
+            const costPerVid = parseFloat(inputEditorCost.value);
+
+            const opportunityCost = hours * videos * rate;
+            const outsourcingCost = videos * costPerVid;
+            const netSavings = opportunityCost - outsourcingCost;
+
+            statOpportunity.textContent = `$${opportunityCost.toLocaleString()}`;
+            statOutsourcing.textContent = `$${outsourcingCost.toLocaleString()}`;
+
+            const recommendation = netSavings > 0 
+                ? `<strong>ROI Insight:</strong> Outsourcing saves you ${opportunityCost - outsourcingCost > 0 ? "money" : "time"}. Hiring an editor earns you an <strong>effective gain of $${netSavings.toLocaleString()}</strong> in reclaimed revenue-generating hours every month.`
+                : `<strong>ROI Insight:</strong> You are currently better off editing yourself. The cost of hiring exceeds the revenue your editing time currently generates. Focus on raising your hourly value first.`;
+
+            takeaway.innerHTML = recommendation;
+            renderChart(opportunityCost, outsourcingCost);
+        };
+
+        const renderChart = (opp, cost) => {
+            const ctx = document.getElementById("roi-chart").getContext("2d");
+            if (chart) chart.destroy();
+            chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['DIY Opportunity Cost', 'Outsourcing Cost'],
+                    datasets: [{ data: [opp, cost], backgroundColor: ['#f43f5e', '#10b981'] }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+        };
+
+        [inputRate, sliderEditHours, sliderVideos, inputEditorCost].forEach(el => el.addEventListener("input", calculate));
+        
+        document.getElementById("btn-reset").addEventListener("click", () => {
+            inputRate.value = 150;
+            sliderEditHours.value = 5;
+            sliderVideos.value = 4;
+            inputEditorCost.value = 200;
+            calculate();
+        });
+
+        document.getElementById("btn-copy").addEventListener("click", () => {
+            const text = `Editor ROI Audit:\nMonthly DIY Opportunity Cost: ${statOpportunity.textContent}\nMonthly Outsourcing Cost: ${statOutsourcing.textContent}\n${takeaway.innerText.replace(/<[^>]*>/g, '')}`;
+            navigator.clipboard.writeText(text).then(() => {
+                toast.classList.remove("translate-y-20", "opacity-0");
+                setTimeout(() => toast.classList.add("translate-y-20", "opacity-0"), 2000);
+            });
+        });
+
+        document.getElementById("theme-toggle").addEventListener("click", () => {
+            document.documentElement.classList.toggle("dark");
+        });
+
+        calculate();
+    </script>
+</body>
+</html>
